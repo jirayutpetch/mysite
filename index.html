@@ -1,0 +1,2938 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooter Computer</title>
+    <link rel="icon" href="https://img5.pic.in.th/file/secure-sv1/Untitled-designc4c809304a814f6c.png"
+        type="image/x-icon">
+    <style>
+        /* ---- Reset & Base Styles ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', 'Prompt', sans-serif;
+        }
+
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --fb-color: #1877f2;
+            --line-color: #06c755;
+            --shopee-color: #ee4d2d;
+            --lazada-color: #0f146d;
+            --black-color: #000;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-fb {
+            background-color: var(--fb-color);
+            color: white;
+        }
+
+        .btn-line {
+            background-color: var(--line-color);
+            color: white;
+        }
+
+        .btn-shopee {
+            background-color: var(--shopee-color);
+            color: white;
+        }
+
+        .btn-lazada {
+            background-color: var(--lazada-color);
+            color: white;
+        }
+
+        .btn-website {
+            background-color: var(--dark-color);
+            color: white;
+        }
+
+        /* ---- Header Styles ---- */
+        .header {
+            background: linear-gradient(135deg, var(--black-color), var(--dark-color));
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .header.scrolled {
+            padding: 15px 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+            transition: 0.3s;
+        }
+
+        .header.scrolled .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            transition: 0.3s;
+        }
+
+        .header.scrolled .logo h1 {
+            font-size: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* ---- Hero Section ---- */
+        .hero {
+            padding-top: 150px;
+            height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            margin-top: 80px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* ทำให้รูปภาพเต็มคลาส Hero */
+            z-index: -1;
+
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.3s;
+            animation-fill-mode: backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+            animation: fadeIn 1s ease 0.6s;
+            animation-fill-mode: backwards;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: white;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        /* ---- Features Section ---- */
+        .features {
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* ---- Products Section ---- */
+        .products {
+            background-color: var(--light-color);
+            box-shadow: 0 0 20px rgba(143, 143, 143, 0.5);
+
+        }
+
+        .product-slider {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-detail {
+            height: 80px;
+            color: rgba(99, 99, 99, 0.6);
+        }
+
+        .product-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card {
+            flex: 0 0 300px;
+            margin: 0 15px;
+            background-color: rgb(224, 224, 224);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .product-info {
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-info {
+            margin-left: 70px;
+            background-color: #ff000d;
+            /* สีส้ม */
+            border-color: #ff0000;
+            /* สีเข้มขึ้น */
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-info:hover {
+            background-color: #ff8c00;
+            /* สีเข้มขึ้นเมื่อโฮเวอร์ */
+            border-color: #ff0000;
+            transform: scale(1.05);
+        }
+
+        .slider-nav {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .slider-nav button {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: var(--dark-color);
+            cursor: pointer;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+
+        .slider-nav button:hover {
+            color: var(--primary-color);
+        }
+
+        /* ---- Social Media Section ---- */
+        .social-media {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .social-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        /* ---- Contact Section ---- */
+        .contact {
+            background-color: white;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-info-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        .contact-form {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* ---- Footer ---- */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-social a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            font-size: 14px;
+        }
+
+        /* ---- Animations ---- */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* ---- Responsive Styles ---- */
+        @media (max-width: 991px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                position: relative;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-color);
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s;
+            }
+
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav li {
+                margin: 15px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        /* ---- Preloader ---- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .preloader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---- Back to Top Button ---- */
+        .back-to-top {
+            position: fixed;
+            bottom: -60px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: bottom 0.3s, background-color 0.3s;
+            z-index: 99;
+        }
+
+        .back-to-top.show {
+            bottom: 30px;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--dark-color);
+        }
+
+        /* ---- Additional Features ---- */
+        .parallax-section {
+            background: url('/api/placeholder/1200/800') fixed center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .parallax-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .parallax-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .counter-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .counter-title {
+            font-size: 1.2rem;
+        }
+
+        /* Floating chat button */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+            transition: 0.3s;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-box {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+            transform: scale(0);
+            transform-origin: bottom left;
+            transition: 0.3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-box.active {
+            transform: scale(1);
+        }
+
+        .chat-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        /* ---- Cookie Alert ---- */
+        .cookie-alert {
+            position: fixed;
+            bottom: -100px;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .cookie-alert.show {
+            bottom: 0;
+        }
+
+        .cookie-content {
+            flex: 1;
+        }
+
+        .cookie-buttons {
+            margin-left: 20px;
+        }
+
+        /* ---- Product Modal ---- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-color);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-product {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+
+        .modal-product-img {
+            flex: 0 0 300px;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 150px;
+        }
+
+        .modal-product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .modal-product-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-product-price {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .modal-product-description {
+            margin-bottom: 30px;
+        }
+
+        .modal-product-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-left: 270px;
+        }
+    </style>
+    <style>
+        SS .btnx {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+        }
+
+
+
+        /* สไตล์สำหรับ Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-product-howtoby {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            width: 90%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .channel-title {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .channels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .channel-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .channel-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .line {
+            background-color: #06c755;
+        }
+
+        .shopee {
+            background-color: #ee4d2d;
+        }
+
+        .lazada {
+            background-color: #0f146d;
+        }
+
+        .channel-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .channel-name {
+            font-weight: 500;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eaeaea;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .channels {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- payment -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --payment-primary: #4361ee;
+            --payment-primary-light: #4895ef;
+            --payment-primary-dark: #3a0ca3;
+            --payment-secondary: #f72585;
+            --payment-secondary-light: #ff9ece;
+            --payment-success: #4cc9b0;
+            --payment-danger: #ef476f;
+            --payment-warning: #ffd166;
+            --payment-info: #4cc9f0;
+            --payment-dark: #2b2d42;
+            --payment-light: #f8f9fa;
+            --payment-white: #ffffff;
+            --payment-gray: #adb5bd;
+            --payment-gray-light: #e9ecef;
+            --payment-border-radius: 12px;
+            --payment-transition: all 0.3s ease;
+            --payment-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --payment-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f5f8ff;
+            color: var(--payment-dark);
+            line-height: 1.6;
+        }
+
+        .payment-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .payment-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--payment-border-radius);
+            transition: var(--payment-transition);
+            text-decoration: none;
+            font-family: 'Prompt', sans-serif;
+            border-radius: 30px;
+        }
+
+        .payment-btn-primary {
+            background: linear-gradient(135deg, var(--payment-primary), var(--payment-primary-dark));
+            color: var(--payment-white);
+        }
+
+        .payment-btn-primary:hover {
+            background: linear-gradient(135deg, var(--payment-primary-dark), var(--payment-primary));
+            transform: translateY(-2px);
+            box-shadow: var(--payment-shadow);
+        }
+
+        .payment-btn-outline {
+            background: transparent;
+            color: var(--payment-dark);
+            border: 2px solid var(--payment-gray-light);
+        }
+
+        .payment-btn-outline:hover {
+            border-color: var(--payment-gray);
+            background-color: var(--payment-gray-light);
+        }
+
+        .payment-btn-confirm {
+            background: linear-gradient(135deg, var(--payment-primary), var(--payment-secondary));
+            color: var(--payment-white);
+            font-weight: 600;
+            padding: 0.875rem 2rem;
+        }
+
+        .payment-btn-confirm:hover {
+            background: linear-gradient(135deg, var(--payment-primary-dark), var(--payment-secondary));
+            transform: translateY(-2px);
+            box-shadow: var(--payment-shadow);
+        }
+
+        .payment-btn-confirm:disabled {
+            background: var(--payment-gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Modal Styles */
+        .payment-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--payment-transition);
+        }
+
+        .payment-modal-overlay.payment-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .payment-modal {
+            background-color: var(--payment-white);
+            border-radius: var(--payment-border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--payment-shadow);
+            transform: translateY(20px);
+            transition: var(--payment-transition);
+        }
+
+        .payment-modal-overlay.payment-active .payment-modal {
+            transform: translateY(0);
+        }
+
+        .payment-modal-header {
+            background: linear-gradient(135deg, var(--payment-primary), var(--payment-secondary));
+            color: var(--payment-white);
+            padding: 1.5rem;
+            border-radius: var(--payment-border-radius) var(--payment-border-radius) 0 0;
+            text-align: center;
+        }
+
+        .payment-modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-modal-subtitle {
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .payment-modal-body {
+            padding: 1.5rem;
+        }
+
+        .payment-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1rem 1.5rem 1.5rem;
+            border-top: 1px solid var(--payment-gray-light);
+        }
+
+        /* Payment Methods Grid */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .payment-methods {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .payment-method {
+            background-color: var(--payment-white);
+            border: 2px solid var(--payment-gray-light);
+            border-radius: var(--payment-border-radius);
+            padding: 1.25rem 1rem;
+            cursor: pointer;
+            transition: var(--payment-transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .payment-method:hover {
+            border-color: var(--payment-primary-light);
+            transform: translateY(-5px);
+            box-shadow: var(--payment-shadow-hover);
+        }
+
+        .payment-method.payment-selected {
+            border-color: var(--payment-primary);
+            background-color: rgba(67, 97, 238, 0.05);
+            transform: translateY(-5px);
+            box-shadow: var(--payment-shadow);
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--payment-transition);
+        }
+
+        .payment-method.payment-selected .payment-icon {
+            transform: scale(1.1);
+        }
+
+        .payment-icon-credit {
+            color: var(--payment-primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .payment-icon-bank {
+            color: var(--payment-success);
+            background-color: rgba(76, 201, 176, 0.1);
+        }
+
+        .payment-icon-promptpay {
+            color: var(--payment-info);
+            background-color: rgba(76, 201, 240, 0.1);
+        }
+
+        .payment-icon-truemoney {
+            color: var(--payment-danger);
+            background-color: rgba(239, 71, 111, 0.1);
+        }
+
+        .payment-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Payment Details */
+        .payment-details {
+            display: none;
+        }
+
+        .payment-details.payment-active {
+            display: block;
+            animation: payment-fadeIn 0.3s ease;
+        }
+
+        @keyframes payment-fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--payment-gray-light);
+            color: var(--payment-dark);
+        }
+
+        /* Form Elements */
+        .payment-form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .payment-form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .payment-form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--payment-gray-light);
+            border-radius: var(--payment-border-radius);
+            font-family: 'Prompt', sans-serif;
+            font-size: 1rem;
+            transition: var(--payment-transition);
+        }
+
+        .payment-form-control:focus {
+            outline: none;
+            border-color: var(--payment-primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .payment-form-control::placeholder {
+            color: var(--payment-gray);
+        }
+
+        .payment-input-group {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .payment-input-group .payment-form-control {
+            flex: 1;
+            border-radius: var(--payment-border-radius) 0 0 var(--payment-border-radius);
+        }
+
+        .payment-input-group-text {
+            background-color: var(--payment-gray-light);
+            border: 2px solid var(--payment-gray-light);
+            border-left: none;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            border-radius: 0 var(--payment-border-radius) var(--payment-border-radius) 0;
+            font-weight: 500;
+        }
+
+        .payment-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.75rem;
+        }
+
+        .payment-col {
+            padding: 0 0.75rem;
+            flex: 1;
+        }
+
+        .payment-col-12 {
+            width: 100%;
+            padding: 0 0.75rem;
+        }
+
+        .payment-col-6 {
+            width: 50%;
+            padding: 0 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .payment-col-6 {
+                width: 100%;
+            }
+
+            .payment-row {
+                flex-direction: column;
+            }
+
+            .payment-modal-footer {
+                flex-direction: column;
+            }
+
+            .payment-modal-footer .payment-btn {
+                width: 100%;
+            }
+        }
+
+        /* Card */
+        .payment-card {
+            background-color: var(--payment-white);
+            border-radius: var(--payment-border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            transition: var(--payment-transition);
+        }
+
+        .payment-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .payment-card-body {
+            padding: 1.25rem;
+        }
+
+        .payment-card-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .payment-card-text {
+            margin-bottom: 0.5rem;
+            color: var(--payment-dark);
+        }
+
+        /* QR Code */
+        .payment-qr-container {
+            background-color: var(--payment-light);
+            border-radius: var(--payment-border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            max-width: 240px;
+            margin: 0 auto 1.25rem;
+        }
+
+        .payment-img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Alert */
+        .payment-alert {
+            padding: 1rem;
+            border-radius: var(--payment-border-radius);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .payment-alert-info {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--payment-info);
+            color: var(--payment-dark);
+        }
+
+        .payment-secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(76, 201, 176, 0.1);
+            color: var(--payment-success);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Summary */
+        .payment-summary {
+            display: none;
+            border-top: 1px solid var(--payment-gray-light);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+        }
+
+        .payment-summary.payment-active {
+            display: block;
+            animation: payment-fadeIn 0.3s ease;
+        }
+
+        .payment-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-summary-row.payment-total {
+            font-weight: 600;
+            color: var(--payment-dark);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--payment-gray-light);
+        }
+
+        .payment-summary-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .payment-summary-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.25rem;
+        }
+
+        /* Custom File Upload */
+        .payment-file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .payment-file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--payment-light);
+            border: 2px dashed var(--payment-gray);
+            border-radius: var(--payment-border-radius);
+            cursor: pointer;
+            transition: var(--payment-transition);
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .payment-file-upload-label:hover {
+            border-color: var(--payment-primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .payment-file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Placeholder text center */
+        .payment-text-center {
+            text-align: center;
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <!-- SVG Logo -->
+                <div class="logo">
+                    <img src="https://img5.pic.in.th/file/secure-sv1/Untitled-designc4c809304a814f6c.png"
+                        alt="Shooter Computer Logo" width="50" height="50">
+                </div>
+                <circle cx="25" cy="25" r="23" fill="#3498db" />
+                <path d="M15 15 L35 35 M35 15 L15 35" stroke="white" stroke-width="5" stroke-linecap="round" />
+                <circle cx="25" cy="25" r="8" fill="white" />
+                <circle cx="25" cy="25" r="4" fill="#2ecc71" />
+                </svg>
+                <h1>Shooter Computer</h1>
+            </div>
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="#home">หน้าแรก</a></li>
+                    <li><a href="#features">บริการของเรา</a></li>
+                    <li><a href="#products">สินค้า</a></li>
+                    <li><a href="#social-media">ช่องทางออนไลน์</a></li>
+                    <li><a href="#contact">ติดต่อเรา</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="https://img2.pic.in.th/pic/uue0d4c3da2f895e99.png" alt="" class="hero-bg">
+        </div>
+    </section>
+    <div class="scroll-down" id="scroll-down">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">บริการของเรา</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>จำหน่ายคอมพิวเตอร์</h3>
+                    <p>จำหน่ายคอมพิวเตอร์ตั้งโต๊ะและโน้ตบุ๊คแบรนด์ชั้นนำ พร้อมรับประกันคุณภาพ</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>บริการส่งเคลม</h3>
+                    <p>บริการส่งเคลมสินค้า รวดเร็ว ทันใจ</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>อัพเกรดระบบ</h3>
+                    <p>บริการอัพเกรดเครื่องคอมพิวเตอร์ให้มีประสิทธิภาพสูงขึ้น ตามความต้องการของลูกค้า</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>บริการประกอบคอมพิวเตอร์</h3>
+                    <p>บริการประกอบคอมพิวเตอร์ตามเสปคที่ลูกค้าต้องการ</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>ระบบความปลอดภัย</h3>
+                    <p>ติดตั้งซอฟต์แวร์และระบบป้องกันความปลอดภัยทางคอมพิวเตอร์ ป้องกันไวรัสและการโจมตี</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>ดูแลหลังการขาย</h3>
+                    <p>บริการดูแลหลังการข่ายอ่านไวตอบไวพร้อมให้คำปรึกษา</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">สินค้าของเรา</h2>
+            <div class="product-slider">
+                <div class="product-track">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://img5.pic.in.th/file/secure-sv1/12ab3c5655af3c2abf.png"
+                                alt="คอมพิวเตอร์ตั้งโต๊ะ">
+                        </div>
+                        <div class="product-info">
+                            <h3>CPU AMD RYZEN7 3700x</h3>
+                            <p class="product-detail">CPU แรงๆสำหรับสายเกมมื่ง</p>
+                            <div class="product-price">฿3,000.-</div>
+                            <button class="btn btn-info">รายละเอียด</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://img2.pic.in.th/pic/11a18086504c00ba6d.png" alt="โน๊ตบุ๊ค">
+                        </div>
+                        <div class="product-info">
+                            <h3>CPU AMD RYZEN9 3950x</h3>
+                            <p class="product-detail">CPU แรงๆสำหรับสายเกมมื่ง</p>
+                            <div class="product-price">฿5,000.-</div>
+                            <button class="btn btn-info">รายละเอียด</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://img5.pic.in.th/file/secure-sv1/10225e67a936c9dcc2.png" alt="จอมอนิเตอร์">
+                        </div>
+                        <div class="product-info">
+                            <h3>CPU AMD RYZEN5 2600</h3>
+                            <p class="product-detail">CPU แรงๆสำหรับสายเกมมื่ง</p>
+                            <div class="product-price">฿1,500.-</div>
+                            <button class="btn btn-info">รายละเอียด</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://img2.pic.in.th/pic/ss5a49b1e73b7e3cf5.png" alt="คีย์บอร์ด">
+                        </div>
+                        <div class="product-info">
+                            <h3>PSU Gaming </h3>
+                            <p class="product-detail">MSI MAG A850GL PCIE 5.1 </p>
+                            <div class="product-price">฿3,399.-</div>
+                            <button class="btn btn-info">รายละเอียด</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://img2.pic.in.th/pic/5cf1319cefe3d82b2.png" alt="เมาส์">
+                        </div>
+                        <div class="product-info">
+                            <h3>AVC CPU cooling</h3>
+                            <p class="product-detail">CPU Cooler CPU Heatsink 4 ฮีทไปป์ </p>
+                            <div class="product-price">฿390.-</div>
+                            <button class="btn btn-info">รายละเอียด</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-nav">
+                <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Section with Counter -->
+    <div class="parallax-section">
+        <div class="parallax-content">
+            <h2>เราภูมิใจในผลงานของเรา</h2>
+            <p>ด้วยประสบการณ์มากกว่า 10 ปี เรามั่นใจในคุณภาพการบริการและสินค้าของเรา</p>
+            <div class="counter-container">
+                <div class="counter-item">
+                    <div class="counter" data-count="2000">0</div>
+                    <div class="counter-title">ลูกค้าที่พึงพอใจ</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter" data-count="100">0</div>
+                    <div class="counter-title">ขายแล้ว</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter" data-count="15">5</div>
+                    <div class="counter-title">ลูกค้าซ์้อซ้ำ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Media Section -->
+    <section class="social-media" id="social-media">
+        <div class="container">
+            <h2 class="section-title">ช่องทางการสั่งซื้อ</h2>
+            <p>ติดตามข่าวสาร โปรโมชั่น และกิจกรรมพิเศษต่างๆ ผ่านช่องทางโซเชียลมีเดียของเรา</p>
+            <div class="social-platforms">
+                <a href="https://www.facebook.com/profile.php?id=61571780679844" class="btn btn-fb"><i
+                        class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="https://linevoom.line.me/user/_dRWZKZX641wOpXHXmfM_2uYO-YfQjAKY8ncUL6E" class="btn btn-line"><i
+                        class="fab fa-line"></i> Line</a>
+                <a href="https://shopee.co.th/ararus?categoryId=100644&entryPoint=ShopByPDP&itemId=26027031126"
+                    class="btn btn-shopee"><i class="fas fa-shopping-bag"></i> Shopee</a>
+                <a href="#" class="btn btn-lazada"><i class="fas fa-shopping-cart"></i> Lazada</a>
+                <a href="#" class="btn btn-website"><i class="fas fa-globe"></i> Website</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">ติดต่อเรา</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>ข้อมูลติดต่อ</h3>
+                    <div class="contact-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>ที่อยู่</h4>
+                            <p>70/1 ซอยรังสิต-นครนายก 25 ซอย 3 ตำบลประชาธิปัตย์ อำเภอธัญบุรี จ.ปทุมธานี 12130</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>โทรศัพท์</h4>
+                            <p>02-123-4567, 081-234-5678</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>อีเมล</h4>
+                            <p>stcomputer.official@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>เวลาทำการ</h4>
+                            <p>จันทร์ - เสาร์: 9:00 - 18:00 น.<br>อาทิตย์: ปิดทำการ</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>ส่งข้อความถึงเรา</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="fullName" class="form-control" placeholder="ชื่อ-นามสกุล *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" class="form-control" placeholder="อีเมล *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์ *" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" class="form-control" placeholder="ข้อความ *" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i>
+                            ส่งข้อความ</button>
+                    </form>
+                    <div id="formStatus" style="margin-top: 10px; display: none;"></div>
+                </div>
+
+                <script>
+                    document.getElementById('contactForm').addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        // รับค่าจากฟอร์ม
+                        const fullName = document.getElementById('fullName').value;
+                        const email = document.getElementById('email').value;
+                        const phone = document.getElementById('phone').value;
+                        const message = document.getElementById('message').value;
+
+                        // ใช้ EmailJS สำหรับส่งอีเมล (ต้องสมัครบัญชีและตั้งค่าก่อน)
+                        const serviceID = 'service_bl4so23'; // ต้องเปลี่ยนเป็น ID ของคุณ
+                        const templateID = 'template_af3qqyb'; // ต้องเปลี่ยนเป็น ID เทมเพลตของคุณ
+                        const userID = 'nSYhMiz7vwKnVgQGX'; // ต้องเปลี่ยนเป็น User ID ของคุณ
+
+                        const templateParams = {
+                            to_email: 'stcomputer.official@gmail.com',
+                            from_name: fullName,
+                            from_email: email,
+                            phone: phone,
+                            message: message
+                        };
+
+                        const statusDiv = document.getElementById('formStatus');
+                        statusDiv.style.display = 'block';
+                        statusDiv.innerHTML = '<div class="alert alert-info">กำลังส่งข้อความ...</div>';
+
+                        // ส่งอีเมลโดยใช้ EmailJS
+                        emailjs.send(serviceID, templateID, templateParams, userID)
+                            .then(function () {
+                                statusDiv.innerHTML = '<div class="alert alert-success">ส่งข้อความเรียบร้อยแล้ว ขอบคุณที่ติดต่อเรา!</div>';
+                                document.getElementById('contactForm').reset();
+                            }, function (error) {
+                                statusDiv.innerHTML = '<div class="alert alert-danger">เกิดข้อผิดพลาดในการส่งข้อความ กรุณาลองใหม่อีกครั้ง</div>';
+                                console.error('Error:', error);
+                            });
+                    });
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+                <script>
+                    (function () {
+                        emailjs.init("nSYhMiz7vwKnVgQGX");
+                    })();
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>เกี่ยวกับเรา</h3>
+                    <p>Shooter Computer ให้บริการและจำหน่ายอุปกรณ์คอมพิวเตอร์คุณภาพเยี่ยม ครบวงจร ในราคาที่เป็นมิตร
+                        พร้อมทีมงานมืออาชีพที่พร้อมให้คำปรึกษา</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=61571780679844"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="https://linevoom.line.me/user/_dRWZKZX641wOpXHXmfM_2uYO-YfQjAKY8ncUL6E"><i
+                                class="fab fa-line"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>บริการของเรา</h3>
+                    <div class="footer-links">
+                        <a href="#"><i class="fas fa-angle-right"></i> จำหน่ายคอมพิวเตอร์</a>
+                        <a href="#"><i class="fas fa-angle-right"></i> ซ่อมบำรุงคอมพิวเตอร์</a>
+                        <a href="#"><i class="fas fa-angle-right"></i> อัพเกรดระบบ</a>
+                        <a href="#"><i class="fas fa-angle-right"></i> ติดตั้งระบบเครือข่าย</a>
+                        <a href="#"><i class="fas fa-angle-right"></i> ระบบความปลอดภัย</a>
+                        <a href="#"><i class="fas fa-angle-right"></i> ดูแลหลังการขาย</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>ติดต่อเรา</h3>
+                    <div class="footer-links">
+                        <a href="#"><i class="fas fa-map-marker-alt"></i> 70/1 ซอยรังสิต-นครนายก 25 ซอย 3
+                            ตำบลประชาธิปัตย์ อำเภอธัญบุรี จ.ปทุมธานี 12130</a>
+                        <a href="#"><i class="fas fa-phone-alt"></i> 02-123-4567, 096-254-1698</a>
+                        <a href="#"><i class="fas fa-envelope"></i> stcomputer.official@gmail.com</a>
+                        <a href="#"><i class="fas fa-clock"></i> จันทร์ - เสาร์: 9:00 - 18:00 น.</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shooter Computer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Chat Button & Box -->
+    <div class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </div>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h3>แชทกับเรา</h3>
+            <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <p><strong>ทีมงาน:</strong> สวัสดีครับ มีอะไรให้ช่วยเหลือไหมครับ?</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="พิมพ์ข้อความ..." id="chatInput">
+            <button id="chatSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Cookie Alert -->
+    <div class="cookie-alert" id="cookieAlert">
+        <div class="cookie-content">
+            <h4>เว็บไซต์นี้ใช้คุกกี้</h4>
+            <p>เราใช้คุกกี้เพื่อมอบประสบการณ์ที่ดีที่สุดในการใช้งานเว็บไซต์ โดยการใช้งานเว็บไซต์ต่อไป
+                คุณยอมรับนโยบายคุกกี้ของเรา</p>
+        </div>
+        <div class="cookie-buttons">
+            <button class="btn btn-secondary" id="cookieAccept">ยอมรับ</button>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <div class="modal-product">
+                    <div class="modal-product-img">
+                        <img src="/api/placeholder/400/400" alt="Product">
+                    </div>
+                    <div class="modal-product-info">
+                        <h2 class="modal-product-title">ชื่อสินค้า</h2>
+                        <div class="modal-product-price">฿0</div>
+                        <div class="modal-product-description">
+                            <p>รายละเอียดสินค้าจะแสดงที่นี่...</p>
+                        </div>
+                        <div class="modal-product-actions">
+                            <button class="payment-btn payment-btn-primary" id="payment-openPaymentModal">
+                                <i class="fas fa-shopping-cart"></i> สั่งซื้อเลย
+                            </button>
+                            <a href="#" class="btn btn-secondary modal-trigger">
+                                <i class="fas fa-phone-alt"></i> เพิ่มเติม
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay"></div>
+
+    <!-- Modal -->
+    <div class="modal-product-howtoby">
+        <div class="modal-header">
+            <h3 class="modal-title">ช่องทางการซื้อสินค้าเพิ่มเติม</h3>
+            <button class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="channel-title">สามารถสั่งซื้อสินค้าได้ที่ช่องทางเหล่านี้</p>
+            <div class="channels">
+                <a href="https://www.facebook.com/profile.php?id=61571780679844" class="channel-item facebook">
+                    <div class="channel-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <span class="channel-name">Facebook</span>
+                </a>
+                <a href="#" class="channel-item line">
+                    <div class="channel-icon">
+                        <i class="fab fa-line"></i>
+                    </div>
+                    <span class="channel-name">Line</span>
+                </a>
+                <a href="https://shopee.co.th/ararus?categoryId=100644&entryPoint=ShopByPDP&itemId=26027031126"
+                    class="channel-item shopee">
+                    <div class="channel-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <span class="channel-name">Shopee</span>
+                </a>
+                <a href="#" class="channel-item lazada">
+                    <div class="channel-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <span class="channel-name">Lazada</span>
+                </a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p>ขอบคุณที่สนใจสินค้าของเรา</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+    <div class="payment-modal-overlay" id="payment-modalOverlay">
+        <div class="payment-modal">
+            <div class="payment-modal-header">
+                <h3 class="payment-modal-title">เลือกช่องทางชำระเงิน</h3>
+                <p class="payment-modal-subtitle">กรุณาเลือกวิธีการชำระเงินที่สะดวกสำหรับคุณ</p>
+            </div>
+            <div class="payment-modal-body">
+                <div class="payment-methods">
+                    <div class="payment-method" data-method="payment-credit-card">
+                        <div class="payment-icon payment-icon-credit">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h6 class="payment-title">บัตรเครดิต / เดบิต</h6>
+                    </div>
+                    <div class="payment-method" data-method="payment-bank-transfer">
+                        <div class="payment-icon payment-icon-bank">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h6 class="payment-title">โอนผ่านธนาคาร</h6>
+                    </div>
+                    <div class="payment-method" data-method="payment-promptpay">
+                        <div class="payment-icon payment-icon-promptpay">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h6 class="payment-title">พร้อมเพย์</h6>
+                    </div>
+                    <div class="payment-method" data-method="payment-truemoney">
+                        <div class="payment-icon payment-icon-truemoney">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h6 class="payment-title">ทรูมันนี่</h6>
+                    </div>
+                </div>
+
+                <!-- ข้อมูลการชำระเงิน (จะแสดงเมื่อเลือกวิธีการชำระเงิน) -->
+                <div class="payment-details" id="payment-credit-card-details">
+                    <h5 class="payment-section-title">ชำระด้วยบัตรเครดิต / เดบิต</h5>
+                    <form>
+                        <div class="payment-form-group">
+                            <label class="payment-form-label">หมายเลขบัตร</label>
+                            <div class="payment-input-group">
+                                <input type="text" class="payment-form-control" placeholder="xxxx xxxx xxxx xxxx">
+                                <div class="payment-input-group-text">
+                                    <i class="fab fa-cc-visa" style="margin-right: 8px;"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-row">
+                            <div class="payment-col-6">
+                                <div class="payment-form-group">
+                                    <label class="payment-form-label">วันหมดอายุ</label>
+                                    <input type="text" class="payment-form-control" placeholder="MM/YY">
+                                </div>
+                            </div>
+                            <div class="payment-col-6">
+                                <div class="payment-form-group">
+                                    <label class="payment-form-label">รหัส CVV</label>
+                                    <input type="text" class="payment-form-control" placeholder="xxx">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-form-group">
+                            <label class="payment-form-label">ชื่อบนบัตร</label>
+                            <input type="text" class="payment-form-control" placeholder="ชื่อผู้ถือบัตร">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="payment-details" id="payment-bank-transfer-details">
+                    <h5 class="payment-section-title">โอนเงินผ่านธนาคาร</h5>
+                    <div class="payment-row">
+                        <div class="payment-col-6">
+                            <div class="payment-card">
+                                <div class="payment-card-body">
+                                    <h6 class="payment-card-title">ธนาคารกสิกรไทย</h6>
+                                    <p class="payment-card-text">ชื่อบัญชี: บริษัท ตัวอย่าง จำกัด</p>
+                                    <p class="payment-card-text">เลขที่บัญชี: xxx-x-xxxxx-x</p>
+                                    <p class="payment-card-text">สาขา: สำนักงานใหญ่</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-col-6">
+                            <div class="payment-card">
+                                <div class="payment-card-body">
+                                    <h6 class="payment-card-title">ธนาคารไทยพาณิชย์</h6>
+                                    <p class="payment-card-text">ชื่อบัญชี: บริษัท ตัวอย่าง จำกัด</p>
+                                    <p class="payment-card-text">เลขที่บัญชี: xxx-x-xxxxx-x</p>
+                                    <p class="payment-card-text">สาขา: สำนักงานใหญ่</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-form-group">
+                        <label class="payment-form-label">อัพโหลดหลักฐานการโอนเงิน</label>
+                        <div class="payment-file-upload">
+                            <label class="payment-file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i> เลือกไฟล์หลักฐานการโอนเงิน
+                                <input type="file" class="payment-file-upload-input">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-details" id="payment-promptpay-details">
+                    <h5 class="payment-section-title">ชำระผ่าน พร้อมเพย์</h5>
+                    <div class="payment-row">
+                        <div class="payment-col-6">
+                            <div class="payment-qr-container">
+                                <img src="/api/placeholder/200/200" alt="QR Code พร้อมเพย์" class="payment-img-fluid">
+                            </div>
+                            <p class="payment-text-center">พร้อมเพย์: xxx-xxx-xxxx</p>
+                            <p class="payment-text-center">ชื่อบัญชี: บริษัท ตัวอย่าง จำกัด</p>
+                        </div>
+                        <div class="payment-col-6">
+                            <div class="payment-form-group">
+                                <label class="payment-form-label">จำนวนเงิน</label>
+                                <div class="payment-input-group">
+                                    <input type="text" class="payment-form-control" value="5,100.00" readonly>
+                                    <div class="payment-input-group-text">บาท</div>
+                                </div>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label">อัพโหลดหลักฐานการโอนเงิน</label>
+                                <div class="payment-file-upload">
+                                    <label class="payment-file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt"></i> เลือกไฟล์หลักฐานการโอนเงิน
+                                        <input type="file" class="payment-file-upload-input">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="payment-form-group">
+                                <label class="payment-form-label">เลขอ้างอิงการโอนเงิน (ถ้ามี)</label>
+                                <input type="text" class="payment-form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-details" id="payment-truemoney-details">
+                    <h5 class="payment-section-title">ชำระผ่าน ทรูมันนี่ วอลเล็ท</h5>
+                    <div class="payment-form-group">
+                        <label class="payment-form-label">หมายเลขโทรศัพท์ที่ลงทะเบียนกับ ทรูมันนี่</label>
+                        <div class="payment-input-group">
+                            <div class="payment-input-group-text">+66</div>
+                            <input type="text" class="payment-form-control" placeholder="xxx-xxx-xxxx">
+                        </div>
+                    </div>
+                    <div class="payment-alert payment-alert-info">
+                        <i class="fas fa-info-circle" style="font-size: 1.25rem;"></i>
+                        <div>คุณจะได้รับข้อความแจ้งเตือนบนมือถือเพื่อยืนยันการชำระเงิน กรุณาตรวจสอบและยืนยันภายใน 5 นาที
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-summary" id="payment-summary">
+                    <h6 class="payment-summary-title">สรุปรายการสั่งซื้อ</h6>
+                    <div class="payment-summary-row">
+                        <span>ยอดรวมสินค้า</span>
+                        <span>฿5,000</span>
+                    </div>
+                    <div class="payment-summary-row">
+                        <span>ค่าจัดส่ง</span>
+                        <span>฿100.00</span>
+                    </div>
+                    <div class="payment-summary-row payment-total">
+                        <span>ยอดรวมทั้งสิ้น</span>
+                        <span>฿5,100.00</span>
+                    </div>
+                    <div class="payment-summary-footer">
+                        <div class="payment-secure-badge">
+                            <i class="fas fa-shield-alt"></i> การชำระเงินปลอดภัย 100%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-modal-footer">
+                <button type="button" class="payment-btn payment-btn-outline" id="payment-cancelPayment">ยกเลิก</button>
+                <button type="button" class="payment-btn payment-btn-confirm" id="payment-confirmPayment"
+                    disabled>ยืนยันการชำระเงิน</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ดึงองค์ประกอบ DOM ที่จำเป็น
+            const openPaymentModalBtn = document.getElementById('payment-openPaymentModal');
+            const modalOverlay = document.getElementById('payment-modalOverlay');
+            const cancelPaymentBtn = document.getElementById('payment-cancelPayment');
+            const confirmPaymentBtn = document.getElementById('payment-confirmPayment');
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const paymentDetails = document.querySelectorAll('.payment-details');
+            const paymentSummary = document.getElementById('payment-summary');
+
+            // เพิ่มตัวแปรเก็บองค์ประกอบหลักของหน้า (ที่ไม่ใช่โมดัล)
+            const mainContent = document.querySelector('body > *:not(#payment-modalOverlay)');
+
+
+
+            // ฟังก์ชันปิดโมดัลและแสดงเนื้อหากลับมา
+            function closeAndResetModal() {
+                modalOverlay.classList.remove('payment-active');
+                resetPaymentForm();
+
+                // แสดงเนื้อหาหลักกลับมา
+                if (mainContent) {
+                    mainContent.style.display = '';
+                }
+            }
+
+            // เปิด Modal เมื่อคลิกปุ่ม "สั่งซื้อเลย"
+            openPaymentModalBtn.addEventListener('click', function () {
+                modalOverlay.classList.add('payment-active');
+                $('#productModal').removeClass('active');
+
+
+
+                // ซ่อนเนื้อหาหลักทั้งหมด
+                if (mainContent) {
+                    mainContent.style.display = 'none';
+                }
+            });
+
+            // ปิด Modal เมื่อคลิกปุ่ม "ยกเลิก"
+            cancelPaymentBtn.addEventListener('click', closeAndResetModal);
+
+            // จัดการการเลือกวิธีการชำระเงิน
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function () {
+                    // ลบคลาส selected จากทุกวิธีการชำระเงิน
+                    paymentMethods.forEach(m => m.classList.remove('payment-selected'));
+
+                    // เพิ่มคลาส selected ให้กับวิธีที่เลือก
+                    this.classList.add('payment-selected');
+
+                    // ดึง data-method เพื่อหาส่วนรายละเอียดที่เกี่ยวข้อง
+                    const methodId = this.getAttribute('data-method');
+
+                    // ซ่อนทุกส่วนรายละเอียด
+                    paymentDetails.forEach(detail => detail.classList.remove('payment-active'));
+
+                    // แสดงส่วนรายละเอียดที่เกี่ยวข้อง
+                    document.getElementById(`${methodId}-details`).classList.add('payment-active');
+
+                    // แสดงสรุปรายการสั่งซื้อ
+                    paymentSummary.classList.add('payment-active');
+
+                    // เปิดใช้งานปุ่มยืนยันการชำระเงิน
+                    confirmPaymentBtn.removeAttribute('disabled');
+                });
+            });
+
+            // จัดการการอัพโหลดไฟล์
+            const fileUploads = document.querySelectorAll('.payment-file-upload-input');
+            fileUploads.forEach(upload => {
+                upload.addEventListener('change', function () {
+                    if (this.files.length > 0) {
+                        // เปลี่ยนข้อความเป็นชื่อไฟล์ที่เลือก
+                        const fileName = this.files[0].name;
+                        const fileLabel = this.parentElement;
+                        fileLabel.innerHTML = `<i class="payment-fas payment-fa-check"></i> ${fileName}`;
+                        fileLabel.style.color = 'var(--payment-success)';
+                        fileLabel.style.borderColor = 'var(--payment-success)';
+                    }
+                });
+            });
+
+            // จัดการเมื่อคลิกปุ่มยืนยันการชำระเงิน
+            confirmPaymentBtn.addEventListener('click', function () {
+                // ตรวจสอบว่าเลือกวิธีการชำระเงินหรือยัง
+                const selectedMethod = document.querySelector('.payment-method.payment-selected');
+
+                if (!selectedMethod) {
+                    alert('กรุณาเลือกวิธีการชำระเงิน');
+                    return;
+                }
+
+                const methodId = selectedMethod.getAttribute('data-method');
+
+                // ตรวจสอบและดำเนินการตามวิธีการชำระเงินที่เลือก
+                switch (methodId) {
+                    case 'payment-credit-card':
+                        validateCreditCardPayment();
+                        break;
+                    case 'payment-bank-transfer':
+                        validateBankTransferPayment();
+                        break;
+                    case 'payment-promptpay':
+                        validatePromptPayPayment();
+                        break;
+                    case 'payment-truemoney':
+                        validateTrueMoneyPayment();
+                        break;
+                }
+            });
+
+            // ฟังก์ชันตรวจสอบข้อมูลบัตรเครดิต/เดบิต
+            function validateCreditCardPayment() {
+                const creditCardForm = document.querySelector('#payment-credit-card-details form');
+                const cardNumber = creditCardForm.querySelector('input[placeholder="xxxx xxxx xxxx xxxx"]').value;
+                const expiry = creditCardForm.querySelector('input[placeholder="MM/YY"]').value;
+                const cvv = creditCardForm.querySelector('input[placeholder="xxx"]').value;
+                const cardName = creditCardForm.querySelector('input[placeholder="ชื่อผู้ถือบัตร"]').value;
+
+                if (!cardNumber || !expiry || !cvv || !cardName) {
+                    alert('กรุณากรอกข้อมูลบัตรให้ครบถ้วน');
+                    return;
+                }
+
+                // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
+                simulatePaymentProcessing('บัตรเครดิต/เดบิต');
+            }
+
+            // ฟังก์ชันตรวจสอบการโอนผ่านธนาคาร
+            function validateBankTransferPayment() {
+                const fileInput = document.querySelector('#payment-bank-transfer-details .payment-file-upload-input');
+
+                if (fileInput.files.length === 0) {
+                    alert('กรุณาอัพโหลดหลักฐานการโอนเงิน');
+                    return;
+                }
+
+                // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
+                simulatePaymentProcessing('โอนผ่านธนาคาร');
+            }
+
+            // ฟังก์ชันตรวจสอบการชำระเงินผ่านพร้อมเพย์
+            function validatePromptPayPayment() {
+                const fileInput = document.querySelector('#payment-promptpay-details .payment-file-upload-input');
+
+                if (fileInput.files.length === 0) {
+                    alert('กรุณาอัพโหลดหลักฐานการโอนเงิน');
+                    return;
+                }
+
+                // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
+                simulatePaymentProcessing('พร้อมเพย์');
+            }
+
+            // ฟังก์ชันตรวจสอบการชำระเงินผ่านทรูมันนี่
+            function validateTrueMoneyPayment() {
+                const phoneNumber = document.querySelector('#payment-truemoney-details input[placeholder="xxx-xxx-xxxx"]').value;
+
+                if (!phoneNumber) {
+                    alert('กรุณากรอกหมายเลขโทรศัพท์');
+                    return;
+                }
+
+                // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
+                simulatePaymentProcessing('ทรูมันนี่');
+            }
+
+            // ฟังก์ชันจำลองการประมวลผลการชำระเงิน
+            function simulatePaymentProcessing(method) {
+                // ปิดปุ่มและแสดงสถานะกำลังดำเนินการ
+                confirmPaymentBtn.disabled = true;
+                confirmPaymentBtn.innerHTML = '<i class="payment-fas payment-fa-spinner payment-fa-spin"></i> กำลังดำเนินการ...';
+
+                // จำลองการประมวลผล (หน่วงเวลา 2 วินาที)
+                setTimeout(function () {
+                    // แสดงข้อความสำเร็จ
+                    alert(`การชำระเงินผ่าน ${method} เสร็จสมบูรณ์!\nขอบคุณสำหรับการสั่งซื้อ`);
+
+                    // ปิด Modal และรีเซ็ตฟอร์ม
+                    modalOverlay.classList.remove('payment-active');
+                    resetPaymentForm();
+
+                    // แสดงเนื้อหาหลักกลับมา
+                    if (mainContent) {
+                        mainContent.style.display = '';
+                    }
+                }, 2000);
+            }
+
+            // ฟังก์ชันรีเซ็ตฟอร์มการชำระเงิน
+            function resetPaymentForm() {
+                // ลบการเลือกวิธีการชำระเงิน
+                paymentMethods.forEach(method => method.classList.remove('payment-selected'));
+
+                // ซ่อนรายละเอียดทั้งหมด
+                paymentDetails.forEach(detail => detail.classList.remove('payment-active'));
+
+                // ซ่อนสรุปรายการ
+                paymentSummary.classList.remove('payment-active');
+
+                // รีเซ็ตฟอร์มทั้งหมด
+                document.querySelectorAll('form').forEach(form => form.reset());
+
+                // รีเซ็ตป้ายอัพโหลดไฟล์
+                document.querySelectorAll('.payment-file-upload-label').forEach(label => {
+                    label.innerHTML = '<i class="payment-fas payment-fa-cloud-upload-alt"></i> เลือกไฟล์หลักฐานการโอนเงิน';
+                    label.style.color = '';
+                    label.style.borderColor = '';
+                });
+
+                // รีเซ็ตปุ่มยืนยัน
+                confirmPaymentBtn.disabled = true;
+                confirmPaymentBtn.innerHTML = 'ยืนยันการชำระเงิน';
+            }
+
+            // เพิ่มฟังก์ชันปิด Modal เมื่อคลิกนอกพื้นที่
+            modalOverlay.addEventListener('click', function (event) {
+                if (event.target === modalOverlay) {
+                    closeAndResetModal();
+                }
+            });
+
+            // ฟังก์ชันสำหรับจัดรูปแบบหมายเลขบัตรเครดิต
+            const creditCardInput = document.querySelector('input[placeholder="xxxx xxxx xxxx xxxx"]');
+            if (creditCardInput) {
+                creditCardInput.addEventListener('input', function (e) {
+                    // ลบช่องว่างและตัวอักษรที่ไม่ใช่ตัวเลข
+                    let value = this.value.replace(/\D/g, '');
+
+                    // เพิ่มช่องว่างทุก 4 ตัวอักษร
+                    if (value.length > 0) {
+                        value = value.match(/.{1,4}/g).join(' ');
+                    }
+
+                    // จำกัดความยาวสูงสุด 19 ตัวอักษร (16 ตัวเลข + 3 ช่องว่าง)
+                    if (value.length > 19) {
+                        value = value.substring(0, 19);
+                    }
+
+                    this.value = value;
+                });
+            }
+
+            // ฟังก์ชันสำหรับจัดรูปแบบวันหมดอายุ
+            const expiryInput = document.querySelector('input[placeholder="MM/YY"]');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function (e) {
+                    // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+                    let value = this.value.replace(/\D/g, '');
+
+                    // จัดรูปแบบเป็น MM/YY
+                    if (value.length > 0) {
+                        if (value.length > 2) {
+                            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                        }
+
+                        // จำกัดความยาวสูงสุด 5 ตัวอักษร (MM/YY)
+                        if (value.length > 5) {
+                            value = value.substring(0, 5);
+                        }
+                    }
+
+                    this.value = value;
+                });
+            }
+
+            // ฟังก์ชันสำหรับจำกัด CVV ให้กรอกได้เฉพาะตัวเลข
+            const cvvInput = document.querySelector('input[placeholder="xxx"]');
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function (e) {
+                    // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+                    let value = this.value.replace(/\D/g, '');
+
+                    // จำกัดความยาวสูงสุด 3 ตัวอักษร (CVV)
+                    if (value.length > 3) {
+                        value = value.substring(0, 3);
+                    }
+
+                    this.value = value;
+                });
+            }
+
+            // ฟังก์ชันสำหรับจัดรูปแบบหมายเลขโทรศัพท์
+            const phoneInput = document.querySelector('input[placeholder="xxx-xxx-xxxx"]');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function (e) {
+                    // ลบตัวอักษรที่ไม่ใช่ตัวเลข
+                    let value = this.value.replace(/\D/g, '');
+
+                    // จัดรูปแบบเป็น xxx-xxx-xxxx
+                    if (value.length > 0) {
+                        if (value.length > 3 && value.length <= 6) {
+                            value = value.substring(0, 3) + '-' + value.substring(3);
+                        } else if (value.length > 6) {
+                            value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6, 10);
+                        }
+
+                        // จำกัดความยาวสูงสุด 12 ตัวอักษร (xxx-xxx-xxxx)
+                        if (value.length > 12) {
+                            value = value.substring(0, 12);
+                        }
+                    }
+
+                    this.value = value;
+                });
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // สำหรับปุ่มที่เปิด modal-product-howtoby
+            $('.modal-trigger, [data-bs-toggle="modal"][data-bs-target=".modal-product-howtoby"]').click(function (e) {
+                e.preventDefault();
+
+                // ปิด modal-product 
+                $('#productModal').removeClass('active');
+
+                // แล้วค่อยเปิด modal-product-howtoby
+                $('.modal-overlay').fadeIn(300);
+                $('.modal-product-howtoby').fadeIn(300);
+                $('body').css('overflow', 'hidden');
+            });
+
+            // สำหรับปุ่ม "สั่งซื้อเลย"
+            $('[data-bs-toggle="modal"][data-bs-target="#paymentModal"]').click(function (e) {
+                e.preventDefault();
+
+                // ปิดทุก modal ที่อาจกำลังแสดงอยู่
+                $('#productModal').removeClass('active');
+                $('.modal-product-howtoby').fadeOut(0);
+
+                // เปิด paymentModal แบบ Bootstrap (ใช้ API ของ Bootstrap ถ้ามี)
+                try {
+                    var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                    paymentModal.show();
+                } catch (error) {
+                    // ถ้าไม่สามารถใช้ Bootstrap API ได้ ให้ใช้วิธีแบบเดิม
+                    $('.modal-overlay').fadeIn(300);
+                    $('#paymentModal').fadeIn(300).addClass('show').css('display', 'block');
+                    $('body').css('overflow', 'hidden');
+                }
+            });
+
+            // เมื่อคลิกที่ปุ่มปิด Modal หรือพื้นหลัง
+            $('.close-button, .modal-overlay').click(function (e) {
+                // ป้องกันการปิด Modal ถ้าคลิกที่ Modal content
+                if ($(e.target).hasClass('modal-overlay') || $(e.target).hasClass('close-button')) {
+                    $('.modal-overlay').fadeOut(300);
+                    $('.modal-product-howtoby').fadeOut(300);
+                    $('#paymentModal').fadeOut(300).removeClass('show');
+                    $('body').css('overflow', 'auto');
+                }
+            });
+
+            // เพิ่ม handler สำหรับปุ่มปิดเฉพาะใน paymentModal
+            $('#paymentModal .close-button, #paymentModal [data-bs-dismiss="modal"]').click(function () {
+                $('#paymentModal').fadeOut(300).removeClass('show');
+                $('.modal-overlay').fadeOut(300);
+                $('body').css('overflow', 'auto');
+            });
+        });
+    </script>
+    <script>
+        // Preloader
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.querySelector('.preloader').classList.add('hide');
+            }, 500);
+        });
+
+        // Mobile Nav Toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function () {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('.header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Back to Top Button
+        window.addEventListener('scroll', function () {
+            const backToTop = document.getElementById('backToTop');
+            backToTop.classList.toggle('show', window.scrollY > 300);
+        });
+
+        document.getElementById('backToTop').addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Scroll Down Button
+        document.getElementById('scroll-down').addEventListener('click', function () {
+            const featuresSection = document.getElementById('features');
+            featuresSection.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Product Slider
+        const track = document.querySelector('.product-track');
+        const cards = document.querySelectorAll('.product-card');
+        const cardWidth = cards[0].offsetWidth + 30; // card width + margin
+        let position = 0;
+        let maxPosition = (cards.length - 3) * cardWidth;
+
+        if (window.innerWidth <= 768) {
+            maxPosition = (cards.length - 1) * cardWidth;
+        }
+
+        document.querySelector('.slider-next').addEventListener('click', function () {
+            position = Math.min(position + cardWidth, maxPosition);
+            track.style.transform = `translateX(-${position}px)`;
+        });
+
+        document.querySelector('.slider-prev').addEventListener('click', function () {
+            position = Math.max(position - cardWidth, 0);
+            track.style.transform = `translateX(-${position}px)`;
+        });
+
+        // Counter Animation
+        function startCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const animate = () => {
+                    const target = +counter.getAttribute('data-count');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(animate, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                animate();
+            });
+        }
+
+        // Intersection Observer for Counter Section
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(document.querySelector('.counter-container'));
+
+        // Chat Box
+        document.getElementById('chatButton').addEventListener('click', function () {
+            document.getElementById('chatBox').classList.add('active');
+        });
+
+        document.getElementById('chatClose').addEventListener('click', function () {
+            document.getElementById('chatBox').classList.remove('active');
+        });
+
+        document.getElementById('chatSend').addEventListener('click', function () {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message) {
+                const messages = document.getElementById('chatMessages');
+                messages.innerHTML += `<p><strong>คุณ:</strong> ${message}</p>`;
+                messages.innerHTML += `<p><strong>ทีมงาน:</strong> ขอบคุณสำหรับข้อความ เราจะติดต่อกลับโดยเร็วที่สุด</p>`;
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        });
+
+        // Cookie Alert
+        setTimeout(function () {
+            document.getElementById('cookieAlert').classList.add('show');
+        }, 2000);
+
+        document.getElementById('cookieAccept').addEventListener('click', function () {
+            document.getElementById('cookieAlert').classList.remove('show');
+        });
+
+        // Product Modal
+        const productButtons = document.querySelectorAll('.product-card .btn');
+        const modal = document.getElementById('productModal');
+        const modalClose = document.getElementById('modalClose');
+
+        productButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const card = this.closest('.product-card');
+                const title = card.querySelector('h3').innerText;
+                const price = card.querySelector('.product-price').innerText;
+                const img = card.querySelector('img').src;
+
+                document.querySelector('.modal-product-title').innerText = title;
+                document.querySelector('.modal-product-price').innerText = price;
+                document.querySelector('.modal-product-img img').src = img;
+
+                modal.classList.add('active');
+            });
+        });
+
+        modalClose.addEventListener('click', function () {
+            modal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
